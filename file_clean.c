@@ -5,10 +5,6 @@
 #include <fcntl.h>
 
 int main(int argc, char *argv[]) {
-    if (argc != 2) {
-        fprintf(stderr, "Usage: %s <file>\n", argv[0]);
-        exit(EXIT_FAILURE);
-    }
 
     const char *filename = argv[1];
 
@@ -21,12 +17,6 @@ int main(int argc, char *argv[]) {
     struct stat st;
     if (fstat(fd, &st) == -1) {
         perror("fstat");
-        close(fd);
-        exit(EXIT_FAILURE);
-    }
-
-    if (!S_ISREG(st.st_mode)) {
-        fprintf(stderr, "%s is not a regular file\n", filename);
         close(fd);
         exit(EXIT_FAILURE);
     }
@@ -44,8 +34,6 @@ int main(int argc, char *argv[]) {
     }
 
     close(fd);
-    printf("Content of %s has been successfully zeroed.\n", filename);
-
     return 0;
 }
 
